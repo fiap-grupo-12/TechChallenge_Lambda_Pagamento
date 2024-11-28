@@ -1,0 +1,45 @@
+# Ignorar arquivos binários
+*.dll
+*.exe
+*.so
+*.dylib
+
+# Ignorar arquivos gerados pelo build
+bin/
+obj/
+
+# Ignorar arquivos de configuração de IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+out/
+
+# Ignorar arquivos específicos do Visual Studio
+*.csproj.user
+*.vcxproj.user
+*.vcxproj.filters
+*.pdb
+*.ipch
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cache
+*.log
+*.tlog
+*.lastbuildstate
+*.sqlite
+*.nuget
+*.g.cs
+*.g.i.cs
+*_ReSharper.*
+_ReSharper.Caches/
+
+# Ignorar pacotes NuGet
+*.nupkg
+*.snupkg
+packages/
