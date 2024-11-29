@@ -5,17 +5,13 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "terraform-tfstate-grupo12-fiap-2024"
-    key    = "lambda_pedido/terraform.tfstate"
+    key    = "lambda_pagamento/terraform.tfstate"
     region = "us-east-1"
   }
 }
-provider "aws" {
-  region = "us-east-1"
-}
-
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name = "lambda_pedido_execution_role"
+  name = "lambda_pagamento_execution_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -32,7 +28,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name        = "lambda_pedido_policy"
+  name        = "lambda_pagamento_policy"
   description = "IAM policy for Lambda execution"
   policy = jsonencode({
     Version = "2012-10-17"
@@ -48,7 +44,8 @@ resource "aws_iam_policy" "lambda_policy" {
           "dynamodb:PutItem",
           "dynamodb:Query",
           "dynamodb:Scan",
-          "dynamodb:UpdateItem"
+          "dynamodb:UpdateItem",
+          "dynamodb:DescribeTable"
         ]
         Resource = "*"
       }
@@ -61,21 +58,36 @@ resource "aws_iam_role_policy_attachment" "lambda_execution_policy" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-resource "aws_lambda_function" "example" {
-  function_name = "lambda_pedido"
-  runtime       = "dotnet8"
+resource "aws_lambda_function" "pagamento_function" {
+  function_name = "lambda_pagamento_function"
   role          = aws_iam_role.lambda_execution_role.arn
-  s3_bucket     = aws_s3_bucket.lambda_bucket.bucket
-  s3_key        = "lambda_pedido_function.zip"
+  runtime       = "dotnet8"
+  memory_size   = 512
+  timeout       = 30
+  handler       = "FIAP.TechChallenge.LambdaPagamento.API::FIAP.TechChallenge.LambdaPagamento.API.Function_Handler_Generated::Handler"
+  # Código armazenado no S3
+  s3_bucket = "code-lambdas-functions"
+  s3_key    = "lambda_pagamento_function.zip"
 }
 
-resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = "code-lambdas-functions"
-}
+# Criação da Tabela DynamoDB
+resource "aws_dynamodb_table" "pagamento_table" {
+  name         = "PagamentoTable"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
 
-resource "aws_s3_bucket_object" "lambda_zip" {
-  bucket = aws_s3_bucket.lambda_bucket.bucket
-  key    = "lambda_pedido_function.zip"
-  source = "pedido/lambda_pedido_function.zip"
-  etag   = filemd5("pedido/lambda_pedido_function.zip")
+  attribute {
+    name = "id"
+    type = "S" # Tipo da chave: "S" para string, "N" para número, "B" para binário
+  }
+
+  # Opcional: Definição de uma chave de classificação (range key)
+  #attribute {
+  #  name = "id_guid"
+  #  type = "S"
+  #}
+
+  tags = {
+    Team = "Grupo12TechChallenge"
+  }
 }

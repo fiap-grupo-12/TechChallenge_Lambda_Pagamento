@@ -9,4 +9,4 @@
   "region": "us-east-1",
   "configuration": "Release",
   "template": "serverless.template"
-}z
+}

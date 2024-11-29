@@ -4,7 +4,9 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using FIAP.TechChallenge.LambdaPagamento.Application.Models.Request;
 using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response;
+using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces;
+using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces.MercadoPago;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FromBodyAttribute = Amazon.Lambda.Annotations.APIGateway.FromBodyAttribute;
@@ -19,10 +21,12 @@ public class Function
 {
     private readonly ICriarPagamentoUseCase _criarPagamento;
     private readonly IObterStatusPagamentoPorIdUseCase _obterStatusPagamentoPorId;
+    private readonly IMercadoPagoObterStatusPagamentoUseCase _obterStatusPagamentoMercadoPago;
 
-    public Function(IObterStatusPagamentoPorIdUseCase obterStatusPagamentoPorIdUseCase)
+    public Function(IObterStatusPagamentoPorIdUseCase obterStatusPagamentoPorIdUseCase, IMercadoPagoObterStatusPagamentoUseCase mercadoPagoObterStatusPagamentoUseCase)
     {
         _obterStatusPagamentoPorId = obterStatusPagamentoPorIdUseCase;
+        _obterStatusPagamentoMercadoPago = mercadoPagoObterStatusPagamentoUseCase;
     }
 
     [LambdaFunction(ResourceName = "Handler")]
@@ -88,4 +92,8 @@ public class Function
     [HttpApi(LambdaHttpMethod.Get, "/Pagamento/{id}")]
     public async Task<PagamentoResponse> GetPedidoPorId(string id)
         => await _obterStatusPagamentoPorId.Execute(Guid.Parse(id));
+
+    [HttpApi(LambdaHttpMethod.Post, "/Webhook/Pagamento")]
+    public async Task<MercadoPagoOrderStatusResponse> GetStatusPagamentoMercadopago([FromQuery] long id, [FromQuery] string topic)
+        => await _obterStatusPagamentoMercadoPago.Execute(id);
 }

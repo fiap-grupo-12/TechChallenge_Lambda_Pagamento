@@ -25,7 +25,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao cadastrar pedido. {ex.Message}", ex);
+                throw new Exception($"Erro ao cadastrar pagamento. {ex.Message}", ex);
             }
         }
 
@@ -37,10 +37,8 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao consultar pedido {Id}. {ex}");
+                throw new Exception($"Erro ao consultar pagamento {Id}. {ex}");
             }
         }
-
-        
     }
 }

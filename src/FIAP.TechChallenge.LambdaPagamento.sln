@@ -17,6 +17,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP.TechChallenge.LambdaPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP.TechChallenge.LambdaPagamento.Tests", "FIAP.TechChallenge.LambdaPagamento.Tests\FIAP.TechChallenge.LambdaPagamento.Tests.csproj", "{65FD3EAA-04A2-4FD0-879F-35E8810E665A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{731F5614-8E7C-49AB-98FC-C888ECE2341E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{A15A6E22-41A2-4F9F-A852-3C0B7FC8CAC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2C363FCF-1606-41E9-83DE-E48E5E9EF246}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\destroy.yaml = ..\.github\workflows\destroy.yaml
+		..\.github\workflows\workflow.yaml = ..\.github\workflows\workflow.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infra", "infra", "{375E216E-62C2-4134-A215-5FA10FC6DB0D}"
+	ProjectSection(SolutionItems) = preProject
+		..\infra\main.tf = ..\infra\main.tf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +68,9 @@ Global
 		{80ED6F49-904A-4B9D-9980-5AF646528304} = {48B26763-49D2-4787-9E43-D7A1E7C0A324}
 		{04F9235D-98CF-4B2F-B2AA-7568DD5E34D8} = {48B26763-49D2-4787-9E43-D7A1E7C0A324}
 		{65FD3EAA-04A2-4FD0-879F-35E8810E665A} = {3CBA3762-0622-41E6-B358-1B3989ADC961}
+		{A15A6E22-41A2-4F9F-A852-3C0B7FC8CAC6} = {731F5614-8E7C-49AB-98FC-C888ECE2341E}
+		{2C363FCF-1606-41E9-83DE-E48E5E9EF246} = {A15A6E22-41A2-4F9F-A852-3C0B7FC8CAC6}
+		{375E216E-62C2-4134-A215-5FA10FC6DB0D} = {731F5614-8E7C-49AB-98FC-C888ECE2341E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D35A0EB-22BE-4E42-849E-25B3C57DC7BA}

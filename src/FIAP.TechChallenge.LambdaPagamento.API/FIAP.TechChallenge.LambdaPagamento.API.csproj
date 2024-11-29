@@ -49,4 +49,5 @@
     <ProjectReference Include="..\FIAP.TechChallenge.LambdaPagamento.Application\FIAP.TechChallenge.LambdaPagamento.Application.csproj" />
     <ProjectReference Include="..\FIAP.TechChallenge.LambdaPagamento.Infra\FIAP.TechChallenge.LambdaPagamento.Infra.csproj" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="[mwe" /></VisualStudio></ProjectExtensions>
 </Project>

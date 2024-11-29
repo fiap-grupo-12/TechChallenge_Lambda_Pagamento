@@ -28,8 +28,9 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
             {
                 Id = request.Id,
                 ValorTotal = request.ValorTotal,
+
+                StatusPagamento = StatusPagamento.Pendente,
                 DataCriacao = DateTime.Now,
-                StatusPagamento = StatusPagamento.Pendente
             };
 
             var result = await _pagamentoRepository.Post(pagamento);
