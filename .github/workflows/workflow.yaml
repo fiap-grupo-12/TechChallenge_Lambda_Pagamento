@@ -99,7 +99,7 @@ jobs:
         run: |
           BUCKET_NAME="code-lambdas-functions-pagamento"
           aws s3api head-bucket --bucket "$BUCKET_NAME" || aws s3api create-bucket --bucket "$BUCKET_NAME"
-          aws s3 cp lambda_pedido_function.zip s3://$BUCKET_NAME/
+          aws s3 cp lambda_pagamento_function.zip s3://$BUCKET_NAME/
 
   CreateLambda: 
     needs: 'Publish'
