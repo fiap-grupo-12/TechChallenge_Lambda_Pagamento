@@ -14,14 +14,5 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.Models.Request
 
         [JsonPropertyName("valorTotal")]
         public decimal ValorTotal { get; set; }
-
-        [JsonPropertyName("statusPagamento")]
-        public string StatusPagamento { get; set; }
-
-        [JsonPropertyName("qrCode")]
-        public string QrCode { get; set; }
-
-        [JsonPropertyName("dataCriacao")]
-        public DateTime DataCriacao { get; set; }
     }
 }

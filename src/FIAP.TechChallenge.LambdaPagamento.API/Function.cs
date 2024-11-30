@@ -86,14 +86,14 @@ public class Function
     }
 
     [HttpApi(LambdaHttpMethod.Post, "/Pagamento")]
-    public async Task<PagamentoResponse> CriarPedido([FromBody] PagamentoRequest request)
+    public async Task<PagamentoResponse> CriarPagamento([FromBody] PagamentoRequest request)
         => await _criarPagamento.Execute(request);
 
     [HttpApi(LambdaHttpMethod.Get, "/Pagamento/{id}")]
-    public async Task<PagamentoResponse> GetPedidoPorId(string id)
+    public async Task<PagamentoResponse> ObterPedidoPorId(string id)
         => await _obterStatusPagamentoPorId.Execute(Guid.Parse(id));
 
     [HttpApi(LambdaHttpMethod.Post, "/Webhook/Pagamento")]
-    public async Task<MercadoPagoOrderStatusResponse> GetStatusPagamentoMercadopago([FromQuery] long id, [FromQuery] string topic)
+    public async Task<MercadoPagoOrderStatusResponse> ObterStatusPagamentoMercadopago([FromQuery] long id, [FromQuery] string topic)
         => await _obterStatusPagamentoMercadoPago.Execute(id);
 }

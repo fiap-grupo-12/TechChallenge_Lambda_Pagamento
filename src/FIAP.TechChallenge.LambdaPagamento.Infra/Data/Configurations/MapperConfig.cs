@@ -13,7 +13,10 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Configurations
         public MapperConfig()
         {
             //Request
-            CreateMap<PagamentoRequest, Pagamento>().ReverseMap();
+            //Request
+            CreateMap<Pagamento, PagamentoResponse>()
+                .ForMember(dest => dest.StatusPagamento, opt => opt.MapFrom(src => src.StatusPagamento.GetDescription()))
+                .ReverseMap();
 
             //Response
             CreateMap<PagamentoResponse, Pagamento>().ReverseMap();

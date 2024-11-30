@@ -28,7 +28,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
             {
                 Id = request.Id,
                 ValorTotal = request.ValorTotal,
-
+                QrCode = string.Empty,
                 StatusPagamento = StatusPagamento.Pendente,
                 DataCriacao = DateTime.Now,
             };

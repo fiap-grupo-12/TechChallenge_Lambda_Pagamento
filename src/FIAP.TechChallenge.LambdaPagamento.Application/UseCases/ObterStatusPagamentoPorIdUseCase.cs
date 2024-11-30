@@ -23,10 +23,5 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
 
             return _mapper.Map<PagamentoResponse>(result);
         }
-
-        Task<PagamentoResponse> IUseCaseAsync<Guid, PagamentoResponse>.Execute(Guid request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
