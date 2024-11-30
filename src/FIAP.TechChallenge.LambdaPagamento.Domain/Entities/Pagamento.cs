@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
+    [DynamoDBTable("PagamentoTable")]
     public class Pagamento
     {
         [DynamoDBHashKey("id")]
