@@ -18,16 +18,16 @@ namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities
         [DynamoDBHashKey("id")]
         public Guid Id { get; set; }
 
-        [DynamoDBHashKey("valorTotal")]
+        [DynamoDBProperty("valorTotal")]
         public decimal ValorTotal { get; set; }
 
-        [DynamoDBHashKey("statusPagamento")]
+        [DynamoDBProperty("statusPagamento")]
         public StatusPagamento StatusPagamento { get; set; }
 
-        [DynamoDBHashKey("qrCode")]
+        [DynamoDBProperty("qrCode")]
         public string QrCode { get; set; }
 
-        [DynamoDBHashKey("dataCriacao")]
+        [DynamoDBProperty("dataCriacao")]
         public DateTime DataCriacao { get; set; }
     }
 }
