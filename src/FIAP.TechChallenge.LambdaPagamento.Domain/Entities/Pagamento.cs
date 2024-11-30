@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Entities.Enum;
+using System.Diagnostics.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities
 {
+    [ExcludeFromCodeCoverage]
     [DynamoDBTable("PagamentoTable")]
     public class Pagamento
     {
