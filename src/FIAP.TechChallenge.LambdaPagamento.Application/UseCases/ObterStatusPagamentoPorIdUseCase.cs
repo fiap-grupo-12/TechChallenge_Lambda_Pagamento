@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories;
