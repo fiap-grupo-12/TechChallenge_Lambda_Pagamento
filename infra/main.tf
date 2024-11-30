@@ -91,3 +91,4 @@ resource "aws_dynamodb_table" "pagamento_table" {
     Team = "Grupo12TechChallenge"
   }
 }
+
