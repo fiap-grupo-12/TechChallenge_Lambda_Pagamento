@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "terraform-tfstate-grupo12-fiap-2024-pagamento"
+    bucket = "terraform-tfstate-grupo12-fiap-2024"
     key    = "lambda_pagamento/terraform.tfstate"
     region = "us-east-1"
   }
@@ -72,7 +72,7 @@ resource "aws_lambda_function" "pagamento_function" {
   timeout       = 30
   handler       = "FIAP.TechChallenge.LambdaPagamento.API::FIAP.TechChallenge.LambdaPagamento.API.Function_Handler_Generated::Handler"
   # Código armazenado no S3
-  s3_bucket = "code-lambdas-functions-pagamento"
+  s3_bucket = "code-lambdas-functions"
   s3_key    = "lambda_pagamento_function.zip"
 
   environment {
