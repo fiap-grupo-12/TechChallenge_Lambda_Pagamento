@@ -21,9 +21,11 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago
             _mapper = mapper;
         }
 
-        public async Task<MercadoPagoOrderStatusResponse> Execute(long id)
+        public async Task<MercadoPagoOrderStatusResponse> Execute(string id)
         {
-            var result = await _mercadoPagoRepository.ObterStatusPedido(id);
+            var idPagamento = long.Parse(id);
+
+            var result = await _mercadoPagoRepository.ObterStatusPedido(idPagamento);
 
             return _mapper.Map<MercadoPagoOrderStatusResponse>(result);
         }

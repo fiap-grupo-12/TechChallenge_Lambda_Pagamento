@@ -24,8 +24,12 @@ public class Function
     private readonly IObterStatusPagamentoPorIdUseCase _obterStatusPagamentoPorId;
     private readonly IMercadoPagoObterStatusPagamentoUseCase _obterStatusPagamentoMercadoPago;
 
-    public Function(IObterStatusPagamentoPorIdUseCase obterStatusPagamentoPorIdUseCase, IMercadoPagoObterStatusPagamentoUseCase mercadoPagoObterStatusPagamentoUseCase)
+    public Function(
+        ICriarPagamentoUseCase criarPagamento,
+        IObterStatusPagamentoPorIdUseCase obterStatusPagamentoPorIdUseCase,
+        IMercadoPagoObterStatusPagamentoUseCase mercadoPagoObterStatusPagamentoUseCase)
     {
+        _criarPagamento = criarPagamento;
         _obterStatusPagamentoPorId = obterStatusPagamentoPorIdUseCase;
         _obterStatusPagamentoMercadoPago = mercadoPagoObterStatusPagamentoUseCase;
     }
@@ -51,11 +55,19 @@ public class Function
                 if (methodOk)
                 {
                     foreach (var parameter in method.GetParameters())
+                    {
                         if (parameter.CustomAttributes.Count() > 0)
-                            parameters.Add(Newtonsoft.Json.JsonConvert.DeserializeObject(request.Body, Type.GetType(parameter.ParameterType.AssemblyQualifiedName)));
+                        {
+                            if (!string.IsNullOrEmpty(request.Body))
+                                parameters.Add(Newtonsoft.Json.JsonConvert.DeserializeObject(request.Body, Type.GetType(parameter.ParameterType.AssemblyQualifiedName)));
+                            if (request.QueryStringParameters.Count() > 0)
+                                foreach (var queryParameters in request.QueryStringParameters.Where(x => x.Key == parameter.Name))
+                                    parameters.Add(queryParameters.Value);
+                        }
                         else
                             foreach (var stringParameters in request.PathParameters.Where(x => x.Key == parameter.Name))
                                 parameters.Add(stringParameters.Value);
+                    }
 
                     var resultAsync = method.Invoke(this, [.. parameters]);
 
@@ -87,15 +99,17 @@ public class Function
     }
 
     [HttpApi(LambdaHttpMethod.Post, "/Pagamento")]
-    public async Task<PagamentoResponse> CriarPagamento([FromBodyAttribute] PagamentoRequest request)
-        => await _criarPagamento.Execute(request);
-
+    public async Task<PagamentoResponse> CriarPagamento([FromBody] PagamentoRequest request)
+    {
+        Console.WriteLine(request.Id);
+        return await _criarPagamento.Execute(request);
+    }
 
     [HttpApi(LambdaHttpMethod.Get, "/Pagamento/{id}")]
     public async Task<PagamentoResponse> ObterPedidoPorId(string id)
         => await _obterStatusPagamentoPorId.Execute(Guid.Parse(id));
 
     [HttpApi(LambdaHttpMethod.Post, "/Pagamento/Webhook")]
-    public async Task<MercadoPagoOrderStatusResponse> ObterStatusPagamentoMercadopago([FromQueryAttribute] long id, [FromQueryAttribute] string topic)
+    public async Task<MercadoPagoOrderStatusResponse> ObterStatusPagamentoMercadopago([FromQueryAttribute] string id, [FromQueryAttribute] string topic)
         => await _obterStatusPagamentoMercadoPago.Execute(id);
 }

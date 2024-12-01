@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces.MercadoPago
 {
-    public interface IMercadoPagoObterStatusPagamentoUseCase : IUseCaseAsync<long, MercadoPagoOrderStatusResponse>
+    public interface IMercadoPagoObterStatusPagamentoUseCase : IUseCaseAsync<string, MercadoPagoOrderStatusResponse>
     {
     }
 }

@@ -24,7 +24,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
 
         public async Task<PagamentoResponse> Execute(PagamentoRequest request)
         {
-            var pagamento = new Pagamento()
+            var pagamento = new Pagamento
             {
                 Id = request.Id,
                 ValorTotal = request.ValorTotal,
