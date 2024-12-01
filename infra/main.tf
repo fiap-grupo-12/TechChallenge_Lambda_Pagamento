@@ -10,6 +10,11 @@ terraform {
   }
 }
 
+# Fila SQS - sqs_atualiza_pagamento_pedido
+data "aws_sqs_queue" "atualiza_pagamento" {
+  name = "sqs_atualiza_pagamento_pedido"
+}
+
 resource "aws_iam_role" "lambda_execution_role" {
   name = "lambda_pagamento_execution_role"
 
@@ -45,7 +50,8 @@ resource "aws_iam_policy" "lambda_policy" {
           "dynamodb:Query",
           "dynamodb:Scan",
           "dynamodb:UpdateItem",
-          "dynamodb:DescribeTable"
+          "dynamodb:DescribeTable",
+          "sqs:*"
         ]
         Resource = "*"
       }
@@ -68,6 +74,12 @@ resource "aws_lambda_function" "pagamento_function" {
   # Código armazenado no S3
   s3_bucket = "code-lambdas-functions-pagamento"
   s3_key    = "lambda_pagamento_function.zip"
+
+  environment {
+    variables = {
+      url_sqs_atualiza_pagamento = data.aws_sqs_queue.atualiza_pagamento.id
+    }
+  }
 }
 
 # Criação da Tabela DynamoDB

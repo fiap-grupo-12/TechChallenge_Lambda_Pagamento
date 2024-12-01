@@ -1,14 +1,17 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.SQS;
 using AutoMapper;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories;
+using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.Mensageria;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Configurations;
 using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories;
+using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.Mensageria;
 using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.MercadoPago;
 using System.Diagnostics.CodeAnalysis;
 
@@ -23,6 +26,8 @@ namespace FIAP.TechChallenge.LambdaPagamento.API.Extensions
             //AWS
             services.AddAWSService<IAmazonDynamoDB>();
             services.AddTransient<IDynamoDBContext, DynamoDBContext>();
+            services.AddAWSService<IAmazonSQS>();
+
 
             //AutoMapper
             var mapperConfig = new MapperConfiguration(mc =>
@@ -33,16 +38,18 @@ namespace FIAP.TechChallenge.LambdaPagamento.API.Extensions
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+
             //Repository
             services.AddTransient<IPagamentoRepository, PagamentoRepository>();
             services.AddTransient<IMercadoPagoRepository, MercadoPagoRepository>();
+            services.AddTransient<IMensageriaAtualizaPagamento, MensageriaAtualizaPagamento>();
+
 
             //UseCase
             services.AddTransient<ICriarPagamentoUseCase, CriarPagamentoUseCase>();
             services.AddTransient<IObterStatusPagamentoPorIdUseCase, ObterStatusPagamentoPorIdUseCase>();
             services.AddTransient<IMercadoPagoObterStatusPagamentoUseCase, MercadoPagoObterStatusPagamentoUseCase>();
             services.AddTransient<IMercadoPagoObterQrCodeUseCase, MercadoPagoObterQrCodeUseCase>();
-
         }
     }
 }

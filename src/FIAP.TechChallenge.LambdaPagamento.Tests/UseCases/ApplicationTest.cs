@@ -3,8 +3,10 @@ using FIAP.TechChallenge.LambdaPagamento.Application.UseCases;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Entities;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories;
+using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.Mensageria;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Configurations;
+using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.Mensageria;
 using FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Tests.Mock;
 using Moq;
@@ -22,6 +24,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Tests.UseCases
         private readonly Mock<ICriarPagamentoUseCase> _criarPagamento;
         private readonly Mock<IPagamentoRepository> _pagamentoRepository;
         private readonly Mock<IMercadoPagoRepository> _mercadoPagoRepository;
+        private readonly Mock<IMensageriaAtualizaPagamento> _mensageriaAtualizaPagamento;
         private readonly IMapper _mapper;
 
         public ApplicationTest()
@@ -29,6 +32,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Tests.UseCases
             _criarPagamento = new Mock<ICriarPagamentoUseCase>();
             _pagamentoRepository = new Mock<IPagamentoRepository>();
             _mercadoPagoRepository = new Mock<IMercadoPagoRepository>();
+            _mensageriaAtualizaPagamento = new Mock<IMensageriaAtualizaPagamento>();
             _mapper = new MapperConfiguration(c => c.AddProfile<MapperConfig>()).CreateMapper();
         }
 

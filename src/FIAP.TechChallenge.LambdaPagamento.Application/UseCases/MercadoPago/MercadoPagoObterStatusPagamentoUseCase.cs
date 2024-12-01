@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces.MercadoPago;
+using FIAP.TechChallenge.LambdaPagamento.Domain.Entities.Enum;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories;
+using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.Mensageria;
 using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.MercadoPago;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +18,19 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago
     {
         private readonly IMercadoPagoRepository _mercadoPagoRepository;
         private readonly IPagamentoRepository _pagamentoRepository;
+        private readonly IMensageriaAtualizaPagamento _mensageria;
         private readonly IMapper _mapper;
 
         public MercadoPagoObterStatusPagamentoUseCase(
             IMercadoPagoRepository mercadoPagoRepository,
             IPagamentoRepository pagamentoRepository,
+            IMensageriaAtualizaPagamento mensageria,
             IMapper mapper
             )
         {
             _mercadoPagoRepository = mercadoPagoRepository;
             _pagamentoRepository = pagamentoRepository;
+            _mensageria = mensageria;
             _mapper = mapper;
         }
 
@@ -45,6 +51,13 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago
                 pagamento.StatusPagamento = Domain.Entities.Enum.StatusPagamento.Recusado;
 
             await _pagamentoRepository.Update(pagamento, pagamento.Id);
+
+            await _mensageria.SendMessage(JsonConvert.SerializeObject(new
+            {
+                idPedido = "1",
+                qrcode = "",
+                statusPagamento = StatusPagamento.Aprovado
+            }));
 
             return _mapper.Map<MercadoPagoOrderStatusResponse>(result);
         }
