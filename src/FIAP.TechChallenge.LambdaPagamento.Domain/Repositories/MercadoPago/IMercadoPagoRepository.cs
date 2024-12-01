@@ -11,7 +11,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.MercadoPago
     {
         Task<string> GetAccessToken();
 
-        Task<string> GetQrCode(MercadoPagoOrder mercadoPagoOrder);
+        Task<string> GetQrCode(string idPedido, double valorTotal);
 
         Task<MercadoPagoOrderStatus> ObterStatusPedido(long id);
     }

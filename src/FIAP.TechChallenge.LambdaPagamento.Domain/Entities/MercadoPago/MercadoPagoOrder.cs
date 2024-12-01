@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Amazon.Runtime.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,30 @@ namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities.MercadoPago
 {
     public class MercadoPagoOrder
     {
+        public static MercadoPagoOrder NewInstance(string idPedido, double valorTotal)
+        {
+            var entity = new MercadoPagoOrder
+            {
+                ExternalReference = idPedido,
+                Title = "Item",
+                Description = "Descricao do Pedido",
+                TotalAmount = valorTotal,
+                Items = new List<Item> { 
+                    new Item {      
+                        Title = "Item",
+                        Description = "Descricao do Produto",
+                        UnitPrice = valorTotal,
+                        Quantity = 1,
+                        UnitMeasure = "unit",
+                        TotalAmount = valorTotal,
+                    } 
+                },
+                Sponsor = new Sponsor { Id = 64160023 }
+            };
+
+            return entity;
+        }
+
         [JsonPropertyName("external_reference")]
         public string ExternalReference { get; set; }
         [JsonPropertyName("title")]

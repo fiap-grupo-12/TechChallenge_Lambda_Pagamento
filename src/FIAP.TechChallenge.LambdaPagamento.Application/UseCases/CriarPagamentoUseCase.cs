@@ -10,16 +10,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FIAP.TechChallenge.LambdaPagamento.Domain.Repositories.MercadoPago;
 
 namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
 {
     public class CriarPagamentoUseCase(
         IPagamentoRepository pagamentoRepository,
+        IMercadoPagoRepository mercadoPagoRepository,
         IMapper mapper
         ) : ICriarPagamentoUseCase
     {
 
         private readonly IPagamentoRepository _pagamentoRepository = pagamentoRepository;
+        private readonly IMercadoPagoRepository _mercadoPagoRepository = mercadoPagoRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<PagamentoResponse> Execute(PagamentoRequest request)
@@ -28,7 +31,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases
             {
                 Id = request.Id,
                 ValorTotal = request.ValorTotal,
-                QrCode = string.Empty,
+                QrCode = await _mercadoPagoRepository.GetQrCode(request.Id.ToString(), request.ValorTotal),
                 StatusPagamento = StatusPagamento.Pendente,
                 DataCriacao = DateTime.Now,
             };

@@ -43,14 +43,14 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.MercadoPago
             return string.Empty;
         }
 
-        public async Task<string> GetQrCode(MercadoPagoOrder mercadoPagoOrder)
-
+        public async Task<string> GetQrCode(string idPedido, double valorTotal)
         {
             var accessToken = await GetAccessToken();
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.mercadopago.com/instore/orders/qr/seller/collectors/{_mercadoPagoSettings.UserId}/pos/{_mercadoPagoSettings.PosId}/qrs");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.mercadopago.com/instore/orders/qr/seller/collectors/120099886/pos/FIAPGrupo12/qrs");
             request.Headers.Add("Authorization", $"Bearer {accessToken}");
 
+            var mercadoPagoOrder = MercadoPagoOrder.NewInstance(idPedido, valorTotal);
             var json = JsonSerializer.Serialize(mercadoPagoOrder);
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 

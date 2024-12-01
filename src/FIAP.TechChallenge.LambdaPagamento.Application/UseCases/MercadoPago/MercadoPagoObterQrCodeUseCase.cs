@@ -52,7 +52,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago
                 }
             };
 
-            var result = await _mercadoPagoRepository.GetQrCode(orderRequest);
+            var result = await _mercadoPagoRepository.GetQrCode(request.IdPedido.ToString(), request.Valor);
 
             return result;
         }
