@@ -1,6 +1,7 @@
 ﻿using Amazon.Runtime.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities.MercadoPago
 {
+    [ExcludeFromCodeCoverage]
     public class MercadoPagoOrder
     {
         public static MercadoPagoOrder NewInstance(string idPedido, double valorTotal)

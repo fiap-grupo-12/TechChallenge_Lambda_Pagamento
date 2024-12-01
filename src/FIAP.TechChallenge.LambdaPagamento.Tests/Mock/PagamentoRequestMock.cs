@@ -9,7 +9,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Tests.Mock
     {
         public static Pagamento PagamentoFake() => new Pagamento()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("45bcf74e-86a4-41ec-9c71-4bbec56e17bc"),
             ValorTotal = 50,
             DataCriacao = DateTime.Now,
             StatusPagamento = StatusPagamento.Pendente
