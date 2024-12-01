@@ -78,7 +78,7 @@ public class Function
             return new APIGatewayProxyResponse
             {
                 StatusCode = 400,
-                Body = ex.Message,
+                Body = ex.Message + ex.ToString(),
                 Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
             };
         }

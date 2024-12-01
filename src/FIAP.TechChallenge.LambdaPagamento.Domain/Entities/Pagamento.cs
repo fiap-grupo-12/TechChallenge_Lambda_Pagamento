@@ -19,7 +19,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Domain.Entities
         public Guid Id { get; set; }
 
         [DynamoDBProperty("valorTotal")]
-        public decimal ValorTotal { get; set; }
+        public double ValorTotal { get; set; }
 
         [DynamoDBProperty("statusPagamento")]
         public StatusPagamento StatusPagamento { get; set; }

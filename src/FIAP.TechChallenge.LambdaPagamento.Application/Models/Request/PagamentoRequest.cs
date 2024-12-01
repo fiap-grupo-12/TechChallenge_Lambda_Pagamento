@@ -13,6 +13,6 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.Models.Request
         public Guid Id { get; set; }
 
         [JsonPropertyName("valorTotal")]
-        public decimal ValorTotal { get; set; }
+        public double ValorTotal { get; set; }
     }
 }
