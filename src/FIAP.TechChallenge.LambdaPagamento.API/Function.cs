@@ -7,9 +7,10 @@ using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response;
 using FIAP.TechChallenge.LambdaPagamento.Application.Models.Response.MercadoPago;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces;
 using FIAP.TechChallenge.LambdaPagamento.Application.UseCases.Interfaces.MercadoPago;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using FromBodyAttribute = Amazon.Lambda.Annotations.APIGateway.FromBodyAttribute;
+using FromQueryAttribute = Amazon.Lambda.Annotations.APIGateway.FromQueryAttribute;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -86,25 +87,15 @@ public class Function
     }
 
     [HttpApi(LambdaHttpMethod.Post, "/Pagamento")]
-    public async Task<PagamentoResponse> CriarPagamento()
-    {
-        var request = new PagamentoRequest()
-        {
-            Id = new Guid(),
-            ValorTotal = 100
-        };
-        return await _criarPagamento.Execute(request);
-    }
+    public async Task<PagamentoResponse> CriarPagamento([FromBodyAttribute] PagamentoRequest request)
+        => await _criarPagamento.Execute(request);
+
 
     [HttpApi(LambdaHttpMethod.Get, "/Pagamento/{id}")]
     public async Task<PagamentoResponse> ObterPedidoPorId(string id)
         => await _obterStatusPagamentoPorId.Execute(Guid.Parse(id));
 
     [HttpApi(LambdaHttpMethod.Post, "/Pagamento/Webhook")]
-    public async Task<MercadoPagoOrderStatusResponse> ObterStatusPagamentoMercadopago()
-    {
-        long id = 25553754120;
-        return await _obterStatusPagamentoMercadoPago.Execute(id);
-    }
-       
+    public async Task<MercadoPagoOrderStatusResponse> ObterStatusPagamentoMercadopago([FromQueryAttribute] long id, [FromQueryAttribute] string topic)
+        => await _obterStatusPagamentoMercadoPago.Execute(id);
 }
