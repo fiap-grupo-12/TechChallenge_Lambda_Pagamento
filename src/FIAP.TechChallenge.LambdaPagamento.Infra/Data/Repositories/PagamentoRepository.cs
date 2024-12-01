@@ -29,6 +29,20 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories
             }
         }
 
+
+        public async Task Update(Pagamento pagamento, Guid Id)
+        {
+            try
+            {
+                await _context.SaveAsync(pagamento);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao atualizar pagamento. {ex}");
+            }
+        }
+
+
         public async Task<Pagamento> GetById(Guid Id)
         {
             try

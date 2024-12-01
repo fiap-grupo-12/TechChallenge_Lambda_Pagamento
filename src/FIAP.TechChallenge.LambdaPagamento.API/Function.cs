@@ -56,14 +56,13 @@ public class Function
                 {
                     foreach (var parameter in method.GetParameters())
                     {
-                        if (parameter.CustomAttributes.Count() > 0)
+                        if (parameter.CustomAttributes.Count() > 0 && !string.IsNullOrEmpty(request.Body))
                         {
-                            if (!string.IsNullOrEmpty(request.Body))
-                                parameters.Add(Newtonsoft.Json.JsonConvert.DeserializeObject(request.Body, Type.GetType(parameter.ParameterType.AssemblyQualifiedName)));
-                            if (request.QueryStringParameters.Count() > 0)
-                                foreach (var queryParameters in request.QueryStringParameters.Where(x => x.Key == parameter.Name))
-                                    parameters.Add(queryParameters.Value);
+                            parameters.Add(Newtonsoft.Json.JsonConvert.DeserializeObject(request.Body, Type.GetType(parameter.ParameterType.AssemblyQualifiedName)));
                         }
+                        else if (parameter.CustomAttributes.Count() > 0 && request.QueryStringParameters.Count() > 0)
+                            foreach (var queryParameters in request.QueryStringParameters.Where(x => x.Key == parameter.Name))
+                                parameters.Add(queryParameters.Value);
                         else
                             foreach (var stringParameters in request.PathParameters.Where(x => x.Key == parameter.Name))
                                 parameters.Add(stringParameters.Value);
