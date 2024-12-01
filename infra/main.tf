@@ -77,7 +77,7 @@ resource "aws_lambda_function" "pagamento_function" {
 
   environment {
     variables = {
-      url_sqs_atualiza_pagamento = data.aws_sqs_queue.atualiza_pagamento.id
+      url_sqs_atualiza_pagamento_pedido = data.aws_sqs_queue.atualiza_pagamento.id
     }
   }
 }

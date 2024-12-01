@@ -17,7 +17,7 @@ namespace FIAP.TechChallenge.LambdaPagamento.Infra.Data.Repositories.Mensageria
         public MensageriaAtualizaPagamento(IAmazonSQS amazonSQS)
         {
             _amazonSQS = amazonSQS;
-            _url = Environment.GetEnvironmentVariable("sqs_atualiza_pagamento_pedido");
+            _url = Environment.GetEnvironmentVariable("url_sqs_atualiza_pagamento_pedido");
         }
 
         public async Task SendMessage(string body)
