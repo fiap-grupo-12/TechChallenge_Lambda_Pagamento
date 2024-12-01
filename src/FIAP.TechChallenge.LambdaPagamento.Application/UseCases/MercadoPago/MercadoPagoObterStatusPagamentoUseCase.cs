@@ -54,9 +54,9 @@ namespace FIAP.TechChallenge.LambdaPagamento.Application.UseCases.MercadoPago
 
             await _mensageria.SendMessage(JsonConvert.SerializeObject(new
             {
-                idPedido = "1",
-                qrcode = "",
-                statusPagamento = StatusPagamento.Aprovado
+                idPedido = pagamento.Id,
+                qrcode = pagamento.QrCode,
+                statusPagamento = pagamento.StatusPagamento
             }));
 
             return _mapper.Map<MercadoPagoOrderStatusResponse>(result);
